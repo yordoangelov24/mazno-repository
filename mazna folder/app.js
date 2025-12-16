@@ -1,3 +1,5 @@
+//mazen test
+
 //                Данни
 // =============================================
 const products = [
@@ -216,7 +218,6 @@ function updateCart(){
   }
   countTag.textContent=`${cart.length} продукта`;
 }
-
 
 function generateRecipe() {
   if (cart.length === 0) {

@@ -1,0 +1,500 @@
+/*                Основни променливи            */
+/* ============================================= */
+:root {
+  --bg1: #f9f5f0;
+  --bg2: #f3ede4;
+  --card: rgba(255, 255, 255, 0.75);
+  --accent: #f7b267;
+  --accent-dark: #f4845f;
+  --accent-light: #fce1c3;
+  --muted: #5a5550;
+  --radius: 20px;
+  --shadow: 0 10px 30px rgba(0,0,0,0.08);
+  --transition: all 0.3s ease;
+  --font-primary: 'Poppins', sans-serif;
+}
+
+/* ============================================= */
+/*                Общ фон и layout              */
+/* ============================================= */
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  font-family: var(--font-primary);
+  color: var(--muted);
+  background: linear-gradient(160deg, var(--bg1), var(--bg2));
+  display: flex;
+  flex-direction: column;
+}
+
+.background {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1400&q=60') center/cover no-repeat;
+  opacity: 0.15;
+  z-index: -1;
+}
+
+/* ============================================= */
+/*                Хедър                         */
+/* ============================================= */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 50px;
+  background: rgba(255,255,255,0.45);
+  backdrop-filter: blur(15px);
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.brand {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--accent-dark);
+}
+
+.nav a {
+  margin-left: 25px;
+  text-decoration: none;
+  color: var(--muted);
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.nav a:hover, .nav a.active {
+  color: var(--accent-dark);
+  transform: scale(1.05);
+}
+
+/* ============================================= */
+/*                Основен layout                */
+/* ============================================= */
+.app {
+  display: flex;
+  gap: 40px;
+  padding: 40px;
+  flex: 1;
+  justify-content: center;
+}
+
+.glass {
+  background: var(--card);
+  backdrop-filter: blur(20px);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px;
+}
+
+/* ============================================= */
+/*                Централен панел               */
+/* ============================================= */
+.panel {
+  width: 750px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  animation: fadeIn 0.8s ease forwards;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--accent-dark);
+}
+
+.subtitle {
+  font-size: 15px;
+  color: var(--muted);
+}
+
+/* ============================================= */
+/*                Кошница                        */
+/* ============================================= */
+.cart {
+  border-radius: var(--radius);
+  padding: 20px;
+  background: rgba(255,255,255,0.55);
+  min-height: 320px;
+  border: 1px solid rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cart-empty {
+  text-align: center;
+  font-size: 15px;
+  padding: 40px 0;
+  color: var(--muted);
+}
+
+/* ============================================= */
+/*                Продукти в кошницата          */
+/* ============================================= */
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px;
+  border-radius: var(--radius);
+  background: rgba(255,255,255,0.8);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  transition: var(--transition);
+}
+
+.item:hover {
+  transform: scale(1.02);
+}
+
+.item .qty {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.item .meta {
+  display: flex;
+  flex-direction: column;
+  margin-left: 12px;
+}
+
+.item .meta .name {
+  font-weight: 600;
+}
+
+.item .meta .small {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ============================================= */
+/*                Рецепта                        */
+/* ============================================= */
+.recipe {
+  padding: 20px;
+  background: rgba(255,255,255,0.75);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+
+.recipe h3 {
+  margin: 0 0 12px 0;
+  color: var(--accent-dark);
+}
+
+.recipe pre {
+  background: rgba(255,255,255,0.85);
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 14px;
+  white-space: pre-wrap;
+}
+
+/* ============================================= */
+/*                Популярни рецепти              */
+/* ============================================= */
+.popular-recipes, .new-products {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.recipe-cards, .product-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.recipe-card, .product-card {
+  flex: 0 0 200px;
+  background: rgba(255,255,255,0.75);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  cursor: pointer;
+}
+
+.recipe-card:hover, .product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+  background: rgba(255,255,255,0.9);
+}
+
+.recipe-card h4, .product-card h4 {
+  margin: 0 0 8px 0;
+  font-size: 17px;
+  color: var(--accent-dark);
+  font-weight: 600;
+}
+
+.recipe-card p, .product-card p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+/* ============================================= */
+/*                Странична лента               */
+/* ============================================= */
+.sidebar {
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.catalog-header h2 {
+  font-size: 24px;
+  color: var(--accent-dark);
+  margin: 0;
+  font-weight: 700;
+}
+
+.catalog-header p {
+  margin: 6px 0 16px 0;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+/* ============================================= */
+/*                Търсене                        */
+/* ============================================= */
+.search {
+  display: flex;
+  gap: 10px;
+}
+
+.search input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(0,0,0,0.1);
+  outline: none;
+  background: rgba(255,255,255,0.6);
+  font-size: 14px;
+  transition: var(--transition);
+}
+
+.search input:focus {
+  border-color: var(--accent-dark);
+  background: rgba(255,255,255,0.85);
+}
+
+.search button {
+  padding: 10px 16px;
+  border-radius: var(--radius);
+  border: none;
+  background: var(--accent);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.search button:hover {
+  background: var(--accent-dark);
+  transform: scale(1.05);
+}
+
+/* ============================================= */
+/*                Чипове (категории)            */
+/* ============================================= */
+.categories h4 {
+  font-size: 15px;
+  margin: 0 0 6px 0;
+  color: var(--accent-dark);
+}
+
+.category-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  padding: 6px 12px;
+  border-radius: 50px;
+  background: var(--accent-light);
+  font-size: 13px;
+  cursor: pointer;
+  transition: var(--transition);
+  user-select: none;
+}
+
+.chip.active, .chip:hover {
+  background: var(--accent);
+  color: white;
+}
+
+/* ============================================= */
+/*                Списък с продукти             */
+/* ============================================= */
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
+  padding: 10px 0;
+}
+
+.product {
+  background: rgba(255,255,255,0.75);
+  border-radius: var(--radius);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: var(--transition);
+  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+
+.product:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+}
+
+.p-thumb {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  background: var(--accent-light);
+  color: var(--accent-dark);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.p-info .p-name {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.p-info .p-cat {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.p-info .p-nutrition {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.add-btn {
+  margin-top: 6px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.add-btn:hover {
+  background: var(--accent-dark);
+  transform: scale(1.05);
+}
+
+/* ============================================= */
+/*                Декоративни икони             */
+/* ============================================= */
+.decor-icons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.decor-icons span {
+  font-size: 20px;
+  animation: bounce 1.5s infinite;
+}
+
+@keyframes bounce {
+  0%,100% { transform: translateY(0);}
+  50% { transform: translateY(-6px);}
+}
+
+/* ============================================= */
+/*                Бутон контроли                 */
+/* ============================================= */
+.btn {
+  border: none;
+  border-radius: var(--radius);
+  padding: 10px 16px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  transition: var(--transition);
+}
+
+.btn.primary {
+  background: var(--accent);
+  color: white;
+}
+
+.btn.pastel {
+  background: var(--accent-light);
+  color: var(--accent-dark);
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+/* ============================================= */
+/*                Футър                           */
+/* ============================================= */
+.footer {
+  text-align: center;
+  padding: 18px;
+  font-size: 14px;
+  background: rgba(255,255,255,0.4);
+  backdrop-filter: blur(15px);
+  box-shadow: var(--shadow);
+  margin-top: auto;
+  color: var(--accent-dark);
+}
+
+/* ============================================= */
+/*                Анимации                        */
+/* ============================================= */
+@keyframes fadeIn {
+  from {opacity:0; transform: translateY(20px);}
+  to {opacity:1; transform: translateY(0);}
+}

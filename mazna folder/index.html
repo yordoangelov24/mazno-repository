@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вкусна Кошница 🍽️</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Фон -->
+  <div class="background"></div>
+
+  <!-- Хедър -->
+  <header class="topbar">
+    <div class="brand">🍃 Вкусна Кошница</div>
+    <nav class="nav">
+      <a href="#" class="active">Начало</a>
+      <a href="#">Рецепти</a>
+      <a href="#">Контакт</a>
+    </nav>
+  </header>
+
+  <!-- Основно съдържание -->
+  <div class="app aesthetic">
+
+    <!-- Централна част: кошница + рецепти -->
+    <main class="center glass">
+      <div class="panel" id="mainPanel">
+
+        <!-- Кошница -->
+        <div class="header">
+          <div>
+            <div class="title">🛒 Вашата кошница</div>
+            <div class="subtitle">Добавете продукти и генерирайте вкусна рецепта ✨</div>
+          </div>
+          <div class="tag" id="countTag">0 продукта</div>
+        </div>
+
+        <div class="cart glass" id="cart">
+          <div class="cart-empty" id="cartEmpty">
+            <p>Кошницата е празна 🌸</p>
+            <p>Изберете продукти от дясната страна.</p>
+          </div>
+          <div class="items" id="itemsContainer" style="display:none"></div>
+          <div class="controls">
+            <button class="btn pastel" id="clearBtn">Изчисти кошницата</button>
+            <button class="btn primary pastel" id="generateBtn">Генерирай рецепта 🍽️</button>
+          </div>
+          <div class="recipe" id="recipeBox" style="display:none">
+            <h3>Предложение за рецепта</h3>
+            <pre id="recipeText">Добавете продукти и натиснете "Генерирай рецепта".</pre>
+          </div>
+        </div>
+
+        <!-- Популярни рецепти -->
+        <section class="popular-recipes">
+          <h3>✨ Популярни рецепти</h3>
+          <div class="recipe-cards" id="popularRecipes"></div>
+        </section>
+
+        <!-- Нови продукти -->
+        <section class="new-products">
+          <h3>🆕 Нови продукти</h3>
+          <div class="product-cards" id="newProducts"></div>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- Странична лента: каталог -->
+    <aside class="sidebar glass">
+      <div class="catalog" id="catalog">
+        <div class="catalog-header">
+          <h2>🛍️ Каталог</h2>
+          <p>Търсете и добавяйте продукти</p>
+        </div>
+
+        <!-- Търсене -->
+        <div class="search">
+          <input placeholder="🔍 Търси продукти..." id="searchInput" />
+          <button id="searchBtn">Търси</button>
+        </div>
+
+        <!-- Категории -->
+        <div class="categories">
+          <h4>📂 Категории</h4>
+          <div class="category-chips" id="categoryChips">
+            <span class="chip active" data-category="all">Всички</span>
+            <span class="chip" data-category="Млечни">Млечни</span>
+            <span class="chip" data-category="Месо">Месо</span>
+            <span class="chip" data-category="Зеленчуци">Зеленчуци</span>
+            <span class="chip" data-category="Плодове">Плодове</span>
+            <span class="chip" data-category="Сладко">Сладко</span>
+          </div>
+        </div>
+
+        <!-- Продукти -->
+        <div id="productList" class="product-list"></div>
+
+        <!-- Декорации -->
+        <div class="decor-icons">
+          <span>🥕</span>
+          <span>🍞</span>
+          <span>🥛</span>
+          <span>🧈</span>
+          <span>🍅</span>
+        </div>
+
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- Футър -->
+  <footer class="footer">
+    <p>🌿 Създадено с вкус и обич</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

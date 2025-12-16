@@ -167,44 +167,20 @@ function renderProducts(list){
 
 //                Добавяне/Премахване
 
-function addToCart(product){ 
-  function addToCart(product){ 
-  const existing = cart.find(i=>i.id===product.id);
-  if(!existing) cart.push({...product, qty:1});
-  else existing.qty+=1;
-  updateCart();
-
-  // Проверка за рецепти след добавяне на продукт
-  const cartIds = cart.map(i=>i.id);
-
-  // 1. Пълно съвпадение
-  let matchedRecipe = recipes.find(r => r.ingredients.every(id=>cartIds.includes(id)));
-
-  // 2. Почти съвпадение (липсват 1-2 продукта)
-  if(!matchedRecipe){
-    let almostMatch = recipes.find(r=>{
-      const missing = r.ingredients.filter(id=>!cartIds.includes(id));
-      return missing.length>0 && missing.length<=2;
-    });
-
-    if(almostMatch){
-      const missingIds = almostMatch.ingredients.filter(id=>!cartIds.includes(id));
-      const missingProducts = products.filter(p=>missingIds.includes(p.id));
-      const names = missingProducts.map(p=>p.name).join(", ");
-      if(confirm(`Виждам, че липсват тези продукти: ${names}.\nИскате ли да ги добавя в кошницата за тази вкусна рецепта? 🍽️`)){
-        missingProducts.forEach(p=>addToCart(p)); // добавяме липсващите
-        matchedRecipe = almostMatch;
-      }
-    }
+function addToCart(product) {
+  // Проверка дали продуктът вече е в кошницата
+  const existing = cart.find(i => i.id === product.id);
+  
+  if (!existing) {
+    // Ако го няма, добавяме го с количество 1
+    cart.push({ ...product, qty: 1 });
+  } else {
+    // Ако го има, увеличаваме бройката
+    existing.qty += 1;
   }
 
-  // 3. Показване на рецептата (ако има съвпадение)
-  if(matchedRecipe){
-    recipeText.textContent=`${matchedRecipe.title} (${matchedRecipe.level})\n\nОписание: ${matchedRecipe.description}\n\nСтъпки:\n${matchedRecipe.steps.map((s,i)=>`${i+1}. ${s}`).join("\n")}`;
-    recipeBox.style.display="block";
-  }
-}
-
+  // Само обновяваме визуално кошницата
+  updateCart(); 
 }
 
 function removeFromCart(id){
@@ -242,50 +218,85 @@ function updateCart(){
 }
 
 
-//                Генериране на рецепта
-
-function generateRecipe(){
-  if(cart.length===0){
-    recipeText.textContent="Кошницата е празна! Добавете продукти първо.";
-    recipeBox.style.display="block";
+function generateRecipe() {
+  if (cart.length === 0) {
+    recipeText.textContent = "Кошницата е празна! Добавете продукти първо.";
+    recipeBox.style.display = "block";
     return;
   }
 
-  const cartIds = cart.map(i=>i.id);
-  let matchedRecipe = recipes.find(r => r.ingredients.every(id=>cartIds.includes(id)));
+  const cartIds = cart.map(i => i.id);
 
-  if(!matchedRecipe){
-    let almostMatch = recipes.find(r=>{
-      const missing = r.ingredients.filter(id=>!cartIds.includes(id));
-      return missing.length>0 && missing.length<=2;
+  // --- ПРОМЕНЕНА ЧАСТ ---
+  // Вместо .find(), ползваме .filter() и сортиране
+  const possibleRecipes = recipes.filter(r => r.ingredients.every(id => cartIds.includes(id)));
+  
+  // Сортираме по брой съставки (низходящ ред) -> най-богатата рецепта печели
+  possibleRecipes.sort((a, b) => b.ingredients.length - a.ingredients.length);
+  
+  let matchedRecipe = possibleRecipes.length > 0 ? possibleRecipes[0] : null;
+
+
+  // 2. Логика за "почти съвпадение" (ако нямаме matchedRecipe)
+  if (!matchedRecipe) {
+    // ... (старият ти код за almostMatch си остава тук)
+    let almostMatch = recipes.find(r => {
+       const missing = r.ingredients.filter(id => cartIds.includes(id));
+       return missing.length > 0 && missing.length <= 2;
     });
+    // Ако сме намерили такава "почти" рецепта
+    if (almostMatch) {
+      const missingIds = almostMatch.ingredients.filter(id => !cartIds.includes(id));
+      const missingProducts = products.filter(p => missingIds.includes(p.id));
+      const names = missingProducts.map(p => p.name).join(", ");
 
-    if(almostMatch){
-      const missingIds = almostMatch.ingredients.filter(id=>!cartIds.includes(id));
-      const missingProducts = products.filter(p=>missingIds.includes(p.id));
-      const names = missingProducts.map(p=>p.name).join(", ");
-      if(confirm(`Виждам, че липсват тези продукти: ${names}.\nИскате ли да ги добавя в кошницата за тази вкусна рецепта? 🍽️`)){
-        missingProducts.forEach(p=>addToCart(p));
-        matchedRecipe = almostMatch;
+      // ТУК питаме потребителя (само след натискане на бутона)
+      if (confirm(`За рецептата "${almostMatch.title}" ви липсват: ${names}.\nИскате ли да ги добавя автоматично? 🍽️`)) {
+        
+        // Добавяме липсващите продукти
+        missingProducts.forEach(p => {
+            const ex = cart.find(i => i.id === p.id);
+            if(!ex) cart.push({...p, qty: 1});
+            // Ако искаш да се увеличава бройката ако го има: else ex.qty++;
+        });
+        
+        updateCart(); // Обновяваме визията на кошницата
+        matchedRecipe = almostMatch; // Вече имаме рецепта за показване!
       }
     }
   }
 
-  const total = cart.reduce((acc,item)=>(({
-    calories: acc.calories + item.calories*item.qty,
-    protein: acc.protein + item.protein*item.qty,
-    fat: acc.fat + item.fat*item.qty,
-    carbs: acc.carbs + item.carbs*item.qty,
-    fiber: acc.fiber + item.fiber*item.qty
-  })), {calories:0, protein:0, fat:0, carbs:0, fiber:0});
+  // Изчисляване на общите нутриенти (независимо дали има рецепта или не)
+  const total = cart.reduce((acc, item) => ({
+    calories: acc.calories + item.calories * item.qty,
+    protein: acc.protein + item.protein * item.qty,
+    fat: acc.fat + item.fat * item.qty,
+    carbs: acc.carbs + item.carbs * item.qty,
+    fiber: acc.fiber + item.fiber * item.qty
+  }), { calories: 0, protein: 0, fat: 0, carbs: 0, fiber: 0 });
 
-  if(matchedRecipe){
-    recipeText.textContent=`${matchedRecipe.title} (${matchedRecipe.level})\n\nОписание: ${matchedRecipe.description}\n\nСтъпки:\n${matchedRecipe.steps.map((s,i)=>`${i+1}. ${s}`).join("\n")}\n\nОбщо хранителни стойности:\nКалории: ${total.calories} kcal\nПротеин: ${total.protein} g\nМазнини: ${total.fat} g\nВъглехидрати: ${total.carbs} g\nФибри: ${total.fiber} g`;
+  // 3. Показване на резултата
+  if (matchedRecipe) {
+    // Имаме рецепта (или точна, или потребителят е приел да добави продуктите)
+    recipeText.textContent = `${matchedRecipe.title} (${matchedRecipe.level})\n\n` + 
+                             `Описание: ${matchedRecipe.description}\n\n` +
+                             `Стъпки:\n${matchedRecipe.steps.map((s, i) => `${i + 1}. ${s}`).join("\n")}\n\n` +
+                             `--- Хранителни стойности на кошницата ---\n` +
+                             `Калории: ${total.calories.toFixed(0)} kcal | Протеин: ${total.protein.toFixed(1)} g | ` +
+                             `Мазнини: ${total.fat.toFixed(1)} g | Въглехидрати: ${total.carbs.toFixed(1)} g`;
   } else {
-    recipeText.textContent=`Вашата рецепта може да включва: ${cart.map(i=>i.name).join(", ")}\n\nХранителна стойност (общо):\nКалории: ${total.calories} kcal\nПротеин: ${total.protein} g\nМазнини: ${total.fat} g\nВъглехидрати: ${total.carbs} g\nФибри: ${total.fiber} g`;
+    // Няма рецепта и потребителят е отказал добавяне или няма близки съвпадения
+    recipeText.textContent = `Не открихме точна рецепта с тези продукти, но ето какво съдържа вашата кошница:\n\n` + 
+                             `Продукти: ${cart.map(i => i.name).join(", ")}\n\n` +
+                             `--- Общи хранителни стойности ---\n` +
+                             `Калории: ${total.calories.toFixed(0)} kcal\n` +
+                             `Протеин: ${total.protein.toFixed(1)} g\n` +
+                             `Мазнини: ${total.fat.toFixed(1)} g\n` +
+                             `Въглехидрати: ${total.carbs.toFixed(1)} g\n` +
+                             `Фибри: ${total.fiber.toFixed(1)} g`;
   }
 
-  recipeBox.style.display="block";
+  recipeBox.style.display = "block";
 }
 
 

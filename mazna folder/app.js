@@ -1,4 +1,4 @@
-// test
+
 //                Данни
 // =============================================
 const products = [
@@ -321,3 +321,8 @@ function renderNew(){
     newContainer.appendChild(div);
   });
 }
+// При всяко обновяване на кошницата:
+localStorage.setItem('myCart', JSON.stringify(cart));
+
+// При зареждане на страницата:
+cart = JSON.parse(localStorage.getItem('myCart')) || [];

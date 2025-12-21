@@ -1,0 +1,77 @@
+/* КРЪГЛИЯТ БУТОН (FAB) */
+.admin-fab {
+    position: fixed; 
+    bottom: 30px; 
+    right: 30px; 
+    width: 60px; 
+    height: 60px;
+    background: white;
+    color: var(--primary);
+    border-radius: 50%;
+    font-size: 26px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0, 122, 255, 0.3);
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    transition: 0.3s;
+    z-index: 1000;
+    /* Важно: Скрит по подразбиране, JS ще го покаже ако си админ */
+    display: none; 
+}
+
+.admin-fab:hover { 
+    transform: scale(1.1) rotate(90deg); 
+    box-shadow: 0 15px 40px rgba(0, 122, 255, 0.4);
+}
+
+/* АДМИН МОДАЛ (ФОН) */
+.admin-modal {
+    display: none; /* Скрит */
+    position: fixed;
+    z-index: 2001; /* Над всичко */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    backdrop-filter: blur(5px);
+    align-items: center;
+    justify-content: center;
+}
+
+/* СЪДЪРЖАНИЕ НА МОДАЛА */
+.admin-content {
+    background: #ffffff;
+    width: 350px;
+    padding: 30px;
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    position: relative;
+    animation: popIn 0.3s ease;
+}
+
+.close-admin {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #999;
+}
+.close-admin:hover { color: red; }
+
+/* ПОЛЕТА */
+.admin-content h2 { margin-top: 0; color: var(--primary); }
+
+.admin-content input, .admin-content select {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    outline: none;
+    background: #f9f9f9;
+}

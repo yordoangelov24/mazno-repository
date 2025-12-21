@@ -338,13 +338,44 @@ body.dark-mode .bar-bg-dark {
 body.dark-mode .search-box-neon input { color: white; }
 body.dark-mode .search-box-neon input::placeholder { color: #bbb; }
 
-/* 5. Бутонът "Изчисти" да се вижда */
-body.dark-mode .clear-link {
-    color: #ff6b6b; /* Светло червено */
-    background: rgba(0,0,0,0.3); /* Лек фон, за да изпъкне */
-    padding: 2px 8px;
-    border-radius: 4px;
+/* --- БУТОН "ИЗЧИСТИ" (Mini Neon Style) --- */
+.clear-link {
+    /* Градиент: Ярко червено към по-меко червено */
+    background: linear-gradient(135deg, #ff4757 0%, #ff6b81 100%);
+    color: white !important; /* Задължително бял текст */
+    border: none;
+    
+    /* Размери: Малко по-компактен от главния бутон */
+    padding: 8px 16px;
+    border-radius: 12px;
+    
+    /* Шрифт */
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    
+    /* Ефекти */
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(255, 71, 87, 0.3); /* Червеникаво сияние */
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
 }
+
+/* При посочване (Hover) */
+.clear-link:hover {
+    transform: translateY(-2px); /* Скача леко нагоре */
+    box-shadow: 0 6px 15px rgba(255, 71, 87, 0.4);
+    filter: brightness(1.1); /* Става малко по-ярък */
+}
+
+/* При натискане (Active) */
+.clear-link:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(255, 71, 87, 0.3);
+}
+
 
 /* 6. Активния бутон в менюто */
 body.dark-mode .menu-btn.active {

@@ -296,7 +296,7 @@ input:checked + .slider:before {
 .mode-label { font-size: 12px; font-weight: bold; color: var(--text-muted); }
 
 
-/* --- 🌑 DARK MODE VARIABLES (МАГИЯТА) --- */
+
 /* --- 🌑 DARK MODE VARIABLES (FIXED) --- */
 body.dark-mode {
     background: linear-gradient(120deg, #2b1055 0%, #7597de 100%);
